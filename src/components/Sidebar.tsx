@@ -25,7 +25,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { id: 'kas-santri', label: role === 'admin' ? 'Persetujuan Kas Santri' : 'Iuran Kas Santri', icon: Coins, roles: ['admin', 'santri', 'ortu'] },
     { id: 'kas-operasional', label: 'Buku Kas Operasional', icon: Wallet, roles: ['admin'] },
     { id: 'laporan', label: 'Laporan Rekap Bulanan', icon: BarChart3, roles: ['admin'] },
-    { id: 'profil', label: 'Kartu Tanda Santri', icon: UserCircle, roles: ['santri'] }
+    { id: 'profil', label: 'Kartu Tanda Santri (KTS)', icon: UserCircle, roles: ['santri'] }
   ];
 
   const filteredItems = navItems.filter(item => item.roles.includes(role));

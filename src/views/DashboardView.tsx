@@ -146,7 +146,7 @@ export const DashboardView: React.FC = () => {
                 className="px-4 py-2.5 bg-white hover:bg-emerald-50 text-emerald-900 rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg"
               >
                 <UserCheck className="w-4 h-4" />
-                <span>Kartu Santri & QR Saya</span>
+                <span>Kartu Tanda Santri (KTS)</span>
               </button>
             )}
             {role === 'ortu' && (

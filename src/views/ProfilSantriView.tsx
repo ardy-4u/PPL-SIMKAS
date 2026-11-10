@@ -50,14 +50,14 @@ export const ProfilSantriView: React.FC = () => {
       {/* Header */}
       <div className="bg-white rounded-3xl p-6 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
         <div>
-          <h2 className="text-lg font-bold text-slate-800">💳 Kartu Tanda Santri & QR Code Absensi</h2>
+          <h2 className="text-lg font-bold text-slate-800">💳 Kartu Tanda Santri (KTS)</h2>
           <p className="text-xs text-slate-500 mt-1">Identitas digital santri Pondok Pesantren Mahasiswa Darut Thalibin Telang.</p>
         </div>
         <button
           onClick={handleDownloadId}
           className="py-2.5 px-5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-700/25 transition self-start sm:self-auto"
         >
-          🖨️ Cetak / Download Kartu ID
+          🖨️ Cetak / Download KTS
         </button>
       </div>
 
@@ -68,7 +68,7 @@ export const ProfilSantriView: React.FC = () => {
             {/* Header ID Card */}
             <div className="p-5 text-center bg-emerald-950/40 backdrop-blur-xs border-b border-white/10 relative">
               <div className="absolute top-4 left-4 text-emerald-400 font-black text-lg">DT</div>
-              <span className="text-[10px] uppercase font-black tracking-widest text-emerald-300 block">KARTU TANDA SANTRI DIGITAL</span>
+              <span className="text-[10px] uppercase font-black tracking-widest text-emerald-300 block">KARTU TANDA SANTRI (KTS)</span>
               <h3 className="font-extrabold text-sm mt-0.5">Pondok Pesantren Darut Thalibin</h3>
               <p className="text-[9px] text-emerald-200">Telang · Bangkalan · Madura</p>
             </div>
