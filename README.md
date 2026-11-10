@@ -41,8 +41,8 @@ Spesifikasi Kebutuhan Perangkat Lunak (SKPL) & Prototipe Sistem Manajemen Santri
 
 ### 1. Clone Repository
 ```bash
-git clone <URL_REPOSITORY_GITHUB>
-cd santri-management-system-specification
+git clone https://github.com/ardy-4u/PPL-SIMKAS.git
+cd PPL-SIMKAS
 ```
 
 ### 2. Install Dependencies
@@ -62,3 +62,4 @@ Aplikasi dapat diakses di browser melalui: `http://localhost:5173`
 npm run build
 ```
 File hasil build akan berada di folder `dist/index.html`.
+
