@@ -121,9 +121,23 @@ export const SimkasProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return false;
   });
   
+  // Auto-migration to ensure all clients use updated roster (David Febrianto & Kelompok 9)
+  const DATA_VERSION = 'v5_david_febrianto_kelompok9';
+  const savedVersion = localStorage.getItem('simkas_version');
+  if (savedVersion !== DATA_VERSION) {
+    localStorage.setItem('simkas_version', DATA_VERSION);
+    localStorage.setItem('simkas_santris', JSON.stringify(INITIAL_SANTRI));
+    localStorage.setItem('simkas_keuangans', JSON.stringify(INITIAL_KEUANGAN));
+    localStorage.setItem('simkas_absensis', JSON.stringify(INITIAL_ABSENSI));
+    localStorage.setItem('simkas_perizinans', JSON.stringify(INITIAL_PERIZINAN));
+    localStorage.setItem('simkas_pelanggarans', JSON.stringify(INITIAL_PELANGGARAN));
+    localStorage.setItem('simkas_kas_operasionals', JSON.stringify(INITIAL_KAS_OPERASIONAL));
+  }
+
   const [santris, setSantris] = useState<Santri[]>(() => {
     const saved = localStorage.getItem('simkas_santris');
-    return saved ? JSON.parse(saved) : INITIAL_SANTRI;
+    const parsed: Santri[] = saved ? JSON.parse(saved) : INITIAL_SANTRI;
+    return parsed.map(s => (s.id === 's1' && s.name === 'Muhammad Hanif') ? { ...s, name: 'David Febrianto', nis: '230411100062' } : s);
   });
 
   const [kegiatans, setKegiatans] = useState<Kegiatan[]>(() => {

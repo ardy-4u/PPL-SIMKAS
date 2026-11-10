@@ -18,7 +18,7 @@ import { KasSantriView } from './views/KasSantriView';
 
 const MainLayout: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { currentView } = useSimkas();
+  const { currentView, role } = useSimkas();
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
@@ -44,7 +44,7 @@ const MainLayout: React.FC = () => {
       case 'laporan':
         return <LaporanView />;
       case 'profil':
-        return <ProfilSantriView />;
+        return role === 'ortu' ? <DashboardView /> : <ProfilSantriView />;
       default:
         return <DashboardView />;
     }

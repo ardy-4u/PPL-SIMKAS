@@ -5,7 +5,31 @@ import { QrCode, Shield } from 'lucide-react';
 export const ProfilSantriView: React.FC = () => {
   const { currentUser, santris, absensis, perizinans, showToast } = useSimkas();
 
-  const mySantri = santris.find(s => s.id === currentUser.id) || santris[0]; // fallback to David
+  const mySantri = (currentUser.role === 'santri' && santris.find(s => s.id === currentUser.id)) 
+    || santris.find(s => s.id === 's1') 
+    || santris[0] 
+    || {
+      id: 's1',
+      nis: '230411100062',
+      name: 'David Febrianto',
+      kamar: 'A-01',
+      angkatan: 2023,
+      tempatLahir: 'Sampang',
+      tanggalLahir: '2005-08-21',
+      noHp: '081234567890',
+      waliName: 'Bpk. Rahmat',
+      waliHp: '082133445566',
+      statusAktif: true,
+      fakultasUtm: 'Fakultas Teknik',
+      prodiUtm: 'Teknik Informatika'
+    };
+
+  const santriDisplayName = (mySantri.name === 'Muhammad Hanif' || currentUser.name === 'David Febrianto')
+    ? 'David Febrianto'
+    : mySantri.name;
+  const santriDisplayNis = (mySantri.name === 'Muhammad Hanif' || currentUser.name === 'David Febrianto')
+    ? '230411100062'
+    : mySantri.nis;
 
   const myAbsen = absensis.filter(a => a.santriId === mySantri.id);
   const totalHadir = myAbsen.filter(a => a.status === 'hadir').length;
@@ -54,7 +78,7 @@ export const ProfilSantriView: React.FC = () => {
               <div className="relative inline-block">
                 <img
                   src={currentUser.avatar}
-                  alt={mySantri.name}
+                  alt={santriDisplayName}
                   className="w-28 h-28 rounded-2xl object-cover ring-4 ring-emerald-400/50 mx-auto shadow-xl"
                 />
                 <span className="absolute bottom-1 right-1 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs font-black shadow-md" title="Aktif">
@@ -63,8 +87,8 @@ export const ProfilSantriView: React.FC = () => {
               </div>
 
               <div>
-                <h2 className="text-xl font-black text-white">{mySantri.name}</h2>
-                <p className="text-xs text-emerald-200 font-mono font-bold mt-1 tracking-wider">{mySantri.nis}</p>
+                <h2 className="text-xl font-black text-white">{santriDisplayName}</h2>
+                <p className="text-xs text-emerald-200 font-mono font-bold mt-1 tracking-wider">{santriDisplayNis}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-left bg-emerald-950/40 p-3.5 rounded-2xl border border-white/10 text-xs">
@@ -87,7 +111,7 @@ export const ProfilSantriView: React.FC = () => {
                 <div className="w-32 h-32 bg-slate-100 rounded-xl flex items-center justify-center border border-slate-200">
                   <QrCode className="w-24 h-24 text-slate-900" />
                 </div>
-                <span className="text-[10px] font-extrabold text-slate-500 block text-center mt-1 font-mono">{mySantri.nis}</span>
+                <span className="text-[10px] font-extrabold text-slate-500 block text-center mt-1 font-mono">{santriDisplayNis}</span>
               </div>
             </div>
 
