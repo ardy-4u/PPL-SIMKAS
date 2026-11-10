@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda - Pondok Pesantren Mahasiswa Darut Thalibin Telang</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Google Fonts Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        pondok: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .nav-link {
+            position: relative;
+            transition: color 0.25s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #059669;
+            transition: width 0.3s ease;
+            border-radius: 9999px;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-800 bg-slate-50 antialiased selection:bg-pondok-500 selection:text-white">
+
+    <!-- HEADER / NAVIGATION -->
+    <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand / Logo Darut Thalibin -->
+                <a href="#beranda" class="flex items-center gap-3.5 group">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-pondok-900 to-pondok-700 flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-pondok-800/25 group-hover:scale-105 transition-transform duration-300 border border-pondok-600/30">
+                        DT
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-extrabold text-slate-900 text-lg tracking-tight leading-tight">SIMKAS</span>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-pondok-100 text-pondok-800 border border-pondok-200">v2.0</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-medium">PPM Darut Thalibin Telang</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex items-center gap-6 font-semibold text-xs xl:text-sm text-slate-600">
+                    <a href="#beranda" class="nav-link text-pondok-700 font-bold hover:text-pondok-800">Beranda</a>
+                    <a href="#profil" class="nav-link hover:text-pondok-700">Profil</a>
+                    <a href="#visi-misi" class="nav-link hover:text-pondok-700">Visi & Misi</a>
+                    <a href="#fasilitas" class="nav-link hover:text-pondok-700">Fasilitas</a>
+                    <a href="#kegiatan" class="nav-link hover:text-pondok-700">Kegiatan</a>
+                    <a href="#pengurus" class="nav-link hover:text-pondok-700">Pengurus</a>
+                    <a href="#fitur" class="nav-link hover:text-pondok-700">Fitur SIMKAS</a>
+                    <a href="#kontak" class="nav-link hover:text-pondok-700">Kontak</a>
+                </nav>
+
+                <!-- Tombol Masuk ke Portal SIMKAS -->
+                <div class="hidden lg:flex items-center gap-3">
+                    <a href="/?login=1" class="inline-flex items-center gap-2.5 px-6 py-2.5 rounded-full bg-pondok-700 hover:bg-pondok-800 text-white font-bold text-sm shadow-lg shadow-pondok-700/25 hover:shadow-pondok-700/40 hover:-translate-y-0.5 transition-all duration-200">
+                        <i class="fas fa-right-to-bracket text-xs"></i>
+                        <span>Masuk Portal</span>
+                    </a>
+                </div>
+
+                <!-- Hamburger Button (Mobile) -->
+                <button id="mobile-toggle" aria-label="Buka Menu" class="lg:hidden p-2.5 rounded-xl text-slate-700 hover:bg-slate-100 focus:outline-none transition">
+                    <i class="fas fa-bars text-xl" id="toggle-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-5 pt-3 pb-6 space-y-2 shadow-xl">
+            <a href="#beranda" class="mobile-item block py-2 text-sm font-bold text-pondok-700 border-b border-slate-100">Beranda</a>
+            <a href="#profil" class="mobile-item block py-2 text-sm font-semibold text-slate-700 border-b border-slate-100">Profil Pesantren</a>
+            <a href="#visi-misi" class="mobile-item block py-2 text-sm font-semibold text-slate-700 border-b border-slate-100">Visi & Misi</a>
+            <a href="#fasilitas" class="mobile-item block py-2 text-sm font-semibold text-slate-700 border-b border-slate-100">Fasilitas</a>
+            <a href="#kegiatan" class="mobile-item block py-2 text-sm font-semibold text-slate-700 border-b border-slate-100">Jadwal Kegiatan</a>
+            <a href="#pengurus" class="mobile-item block py-2 text-sm font-semibold text-slate-700 border-b border-slate-100">Struktur Pengurus</a>
+            <a href="#fitur" class="mobile-item block py-2 text-sm font-semibold text-slate-700 border-b border-slate-100">Fitur SIMKAS</a>
+            <a href="#kontak" class="mobile-item block py-2 text-sm font-semibold text-slate-700 border-b border-slate-100">Kontak</a>
+            <div class="pt-2">
+                <a href="/?login=1" class="w-full flex items-center justify-center gap-2 py-3 bg-pondok-700 text-white font-bold rounded-xl shadow-md text-sm">
+                    <i class="fas fa-right-to-bracket text-xs"></i>
+                    <span>Masuk ke Portal SIMKAS</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="beranda" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
+        <!-- Hero Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="gambar/Gemini_Generated_Image_mdpsvvmdpsvvmdps.jpg" alt="Pondok Pesantren Darut Thalibin" class="w-full h-full object-cover object-center scale-105 filter brightness-75">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-pondok-950/80 to-slate-900/70 backdrop-blur-[2px]"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white py-12">
+            
+            <!-- Badge Sambutan -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs sm:text-sm font-semibold mb-6 text-pondok-100 shadow-lg">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>Sistem Informasi Manajemen Kegiatan & Administrasi Santri</span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white drop-shadow-md">
+                Pondok Pesantren Mahasiswa <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 via-amber-300 to-yellow-200">
+                    Darut Thalibin Telang
+                </span>
+            </h1>
+
+            <p class="mt-6 text-base sm:text-lg lg:text-xl text-slate-200/90 max-w-3xl mx-auto font-normal leading-relaxed">
+                Membina generasi mahasiswa muslim yang kokoh spiritual, berakhlak karimah, dan unggul dalam keilmuan akademis di lingkungan Universitas Trunojoyo Madura.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="/?login=1" class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-pondok-600 to-pondok-700 hover:from-pondok-500 hover:to-pondok-600 text-white font-extrabold text-sm sm:text-base shadow-xl shadow-pondok-900/40 hover:shadow-pondok-700/50 hover:-translate-y-0.5 transition-all duration-200">
+                    <i class="fas fa-arrow-right-to-bracket text-lg"></i>
+                    <span>Masuk ke Portal SIMKAS</span>
+                </a>
+                <a href="#profil" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-sm sm:text-base border border-white/25 backdrop-blur-md transition-all duration-200">
+                    <i class="fas fa-circle-info"></i>
+                    <span>Profil Pesantren</span>
+                </a>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-gold-400">100%</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-0.5 font-medium">Santri Mahasiswa UTM</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-gold-400">RFID / QR</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-0.5 font-medium">Presensi Digital</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-gold-400">Online</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-0.5 font-medium">E-Perizinan Santri</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15">
+                    <p class="text-2xl sm:text-3xl font-extrabold text-gold-400">Transparan</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-0.5 font-medium">Administrasi SPP</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PROFIL SECTION -->
+    <section id="profil" class="py-20 lg:py-28 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Content -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pondok-50 border border-pondok-200 text-pondok-800 text-xs font-extrabold uppercase tracking-wider">
+                        <i class="fas fa-mosque"></i>
+                        <span>Tentang Pesantren</span>
+                    </div>
+
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                        Pondok Pesantren Mahasiswa <br>
+                        <span class="text-pondok-700">Darut Thalibin Telang</span>
+                    </h2>
+
+                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                        Pondok Pesantren Mahasiswa (PPM) Darut Thalibin berlokasi strategis di kawasan Telang, Kamal, Bangkalan, Madura, berdampingan langsung dengan kampus Universitas Trunojoyo Madura (UTM).
+                    </p>
+
+                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                        Pesantren ini hadir sebagai wadah pembinaan keislaman komprehensif bagi mahasiswa dari berbagai fakultas. Dengan memadukan kurikulum salaf (kajian kitab kuning, tadarusan, wirid, kajian fiqih dan akhlak) dengan disiplin akademik kampus, Darut Thalibin membina santri menjadi intelektual muslim yang berwawasan luas dan berintegritas tinggi.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-start gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-pondok-100 text-pondok-800 flex items-center justify-center font-bold shrink-0">
+                                <i class="fas fa-book-quran"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Kajian Kitab Salaf</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Ta'lim Muta'allim, Sulam Taufiq, dan kajian hadits mingguan.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-start gap-3.5">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold shrink-0">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-sm">Sinergi Akademis</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Mendukung keberhasilan studi perkuliahan santri di kampus.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Card / Image Highlight -->
+                <div class="lg:col-span-5">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <div class="absolute -inset-2 rounded-3xl bg-gradient-to-r from-pondok-700 to-amber-500 opacity-20 blur-xl"></div>
+                        <div class="relative rounded-3xl bg-gradient-to-br from-pondok-900 to-pondok-950 text-white p-8 shadow-2xl border border-pondok-800">
+                            
+                            <div class="flex items-center justify-between pb-6 border-b border-white/10">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-gold-400 font-extrabold text-2xl border border-white/15">
+                                        DT
+                                    </div>
+                                    <div>
+                                        <h3 class="font-extrabold text-base text-white">SIMKAS System</h3>
+                                        <p class="text-xs text-pondok-200">Darut Thalibin Telang</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold border border-emerald-500/30">
+                                    Aktif
+                                </span>
+                            </div>
+
+                            <div class="py-6 space-y-4 text-xs sm:text-sm text-slate-300">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-400">Pengasuh / Dosen:</span>
+                                    <span class="font-semibold text-white">Achmad Jauhari S.T., M.Kom</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-400">Lokasi:</span>
+                                    <span class="font-semibold text-white">Telang, Kamal, Bangkalan</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-400">Kapasitas Asrama:</span>
+                                    <span class="font-semibold text-white">4 Gedung (A, B, C, D)</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-slate-400">Afiliasi Mahasiswa:</span>
+                                    <span class="font-semibold text-white">Univ. Trunojoyo Madura</span>
+                                </div>
+                            </div>
+
+                            <a href="/?login=1" class="w-full block text-center py-3.5 px-4 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 font-extrabold text-xs sm:text-sm shadow-md transition-all">
+                                Buka Aplikasi SIMKAS &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- VISI & MISI SECTION -->
+    <section id="visi-misi" class="py-20 lg:py-28 bg-slate-100/70 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pondok-100 border border-pondok-200 text-pondok-800 text-xs font-extrabold uppercase tracking-wider mb-4">
+                    <i class="fas fa-compass"></i>
+                    <span>Arah & Tujuan</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    Visi & Misi Pesantren
+                </h2>
+                <p class="mt-3 text-slate-600 text-sm sm:text-base">
+                    Landasan perjuangan dalam mendidik dan membina generasi santri mahasiswa masa depan.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Visi Card -->
+                <div class="lg:col-span-5 bg-gradient-to-br from-pondok-800 via-pondok-900 to-slate-950 text-white rounded-3xl p-8 sm:p-10 shadow-xl border border-pondok-700/50 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-gold-400/20 text-gold-400 flex items-center justify-center text-xl mb-6 border border-gold-400/30">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-gold-400 mb-4">VISI</h3>
+                        <p class="text-slate-200 leading-relaxed text-sm sm:text-base">
+                            "Menjadi pusat pendidikan pesantren mahasiswa yang unggul dalam integrasi ilmu keislaman, penguatan moralitas, serta kemandirian kepemimpinan berbasis teknologi dan akhlak mulia."
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-white/10 flex items-center gap-2 text-xs text-pondok-200">
+                        <i class="fas fa-star text-gold-400"></i>
+                        <span>PPM Darut Thalibin Telang Bangkalan</span>
+                    </div>
+                </div>
+
+                <!-- Misi Cards -->
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:border-pondok-500 hover:shadow-md transition">
+                        <div class="w-9 h-9 rounded-xl bg-pondok-50 text-pondok-700 flex items-center justify-center font-bold text-sm mb-4">
+                            01
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-2">Penanaman Nilai Aqidah & Ibadah</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Membiasakan sholat berjamaah tepat waktu, wirid, tadarus Al-Qur'an, dan pengamalan sunnah sehari-hari.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:border-pondok-500 hover:shadow-md transition">
+                        <div class="w-9 h-9 rounded-xl bg-pondok-50 text-pondok-700 flex items-center justify-center font-bold text-sm mb-4">
+                            02
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-2">Penguasaan Kitab Kuning</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Menyelenggarakan kajian kitab turats secara berjenjang guna memperdalam pemahaman fiqih, tafsir, dan tasawuf.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:border-pondok-500 hover:shadow-md transition">
+                        <div class="w-9 h-9 rounded-xl bg-pondok-50 text-pondok-700 flex items-center justify-center font-bold text-sm mb-4">
+                            03
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-2">Dukungan Prestasi Akademik</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Mendorong santri untuk berprestasi optimal dalam perkuliahan di Universitas Trunojoyo Madura.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs hover:border-pondok-500 hover:shadow-md transition">
+                        <div class="w-9 h-9 rounded-xl bg-pondok-50 text-pondok-700 flex items-center justify-center font-bold text-sm mb-4">
+                            04
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-sm mb-2">Tata Kelola Modern (SIMKAS)</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Menerapkan sistem informasi digital transparan untuk absensi, perizinan, dan administrasi keuangan santri.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FASILITAS PESANTREN SECTION -->
+    <section id="fasilitas" class="py-20 lg:py-28 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pondok-50 border border-pondok-200 text-pondok-800 text-xs font-extrabold uppercase tracking-wider mb-4">
+                    <i class="fas fa-building-columns"></i>
+                    <span>Sarana & Prasarana</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    Fasilitas Pesantren Mahasiswa
+                </h2>
+                <p class="mt-3 text-slate-600 text-sm sm:text-base">
+                    Mendukung kenyamanan santri dalam beribadah, mendalami kitab kuning, serta menempuh perkuliahan di kampus UTM.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 hover:border-pondok-500 hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-1.5">Gedung Asrama (4 Blok A, B, C, D)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Kamar asrama mahasiswa yang nyaman, dilengkapi lemari pribadi, ranjang bertingkat, dan ventilasi udara yang sejuk.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 hover:border-pondok-500 hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-1.5">Masjid Jami' Darut Thalibin</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Pusat peribadatan sholat berjamaah 5 waktu, wirid ratib al-haddad, kajian tafsir, dan majelis sholawat mingguan.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 hover:border-pondok-500 hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-book-bookmark"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-1.5">Perpustakaan Kitab Turats</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Koleksi kitab kuning salafiyah, kamus bahasa Arab-Inggris, serta buku referensi perkuliahan teknik dan sosial.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 hover:border-pondok-500 hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-800 flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-1.5">WiFi Dedicated & Lab Komputer</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Akses internet berkecepatan tinggi 24 jam untuk mendukung tugas akhir, coding, dan riset akademik mahasiswa UTM.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 hover:border-pondok-500 hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-800 flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-1.5">Katering Higienis & Dapur Asrama</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Penyediaan menu makan harian teratur bergizi seimbang yang dikelola secara bersih oleh petugas katering pondok.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200 hover:border-pondok-500 hover:shadow-lg transition">
+                    <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-800 flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-chalkboard-user"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-1.5">Aula Serbaguna & Gazebo Diskusi</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Ruang pertemuan berkapasitas 200 santri untuk seminar keilmuan, rapat organisasi, dan musyawarah bahsul masail.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROGRAM & KEGIATAN SANTRI SECTION -->
+    <section id="kegiatan" class="py-20 lg:py-28 bg-slate-100/70 border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pondok-100 border border-pondok-200 text-pondok-800 text-xs font-extrabold uppercase tracking-wider mb-4">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Agenda Pesantren</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    Program & Kegiatan Santri
+                </h2>
+                <p class="mt-3 text-slate-600 text-sm sm:text-base">
+                    Rutinitas pembinaan ibadah dan keilmuan yang dipadukan harmonis dengan jadwal perkuliahan kampus.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800">Setiap Hari</span>
+                            <span class="text-xs text-slate-400 font-mono">04:15 WIB</span>
+                        </div>
+                        <h4 class="font-extrabold text-slate-900 text-base mb-2">Sholat Subuh Berjamaah & Wirid</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Sholat subuh berjamaah di masjid, dilanjutkan pembacaan wirid ratib dan tadarus Al-Qur'an 1 juz bersama asatidz.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 font-medium flex items-center justify-between">
+                        <span>Pengampu: Ust. Jauhari</span>
+                        <span class="text-emerald-700 font-bold">Wajib</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-blue-100 text-blue-800">Senin & Rabu</span>
+                            <span class="text-xs text-slate-400 font-mono">19:30 WIB</span>
+                        </div>
+                        <h4 class="font-extrabold text-slate-900 text-base mb-2">Kajian Kitab Ta’lim Muta’allim</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Mendalami adab pencari ilmu karya Syaikh Az-Zarnuji agar santri memiliki etika luhur dalam belajar dan bermasyarakat.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 font-medium flex items-center justify-between">
+                        <span>Pengampu: K.H. Ahmad Nawawi</span>
+                        <span class="text-emerald-700 font-bold">Wajib</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-purple-100 text-purple-800">Selasa & Kamis</span>
+                            <span class="text-xs text-slate-400 font-mono">20:00 WIB</span>
+                        </div>
+                        <h4 class="font-extrabold text-slate-900 text-base mb-2">Kajian Fiqih Sulam Taufiq</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Kajian hukum fiqih ibadah praktis, muamalah, serta batasan halal-haram dalam kehidupan modern mahasiswa.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 font-medium flex items-center justify-between">
+                        <span>Pengampu: Ust. Syafi’i</span>
+                        <span class="text-emerald-700 font-bold">Wajib</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-amber-100 text-amber-800">Jumat Pagi</span>
+                            <span class="text-xs text-slate-400 font-mono">06:00 WIB</span>
+                        </div>
+                        <h4 class="font-extrabold text-slate-900 text-base mb-2">Ro’an Kebersihan Lingkungan</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Kerja bakti pembersihan asrama, masjid, tempat wudhu, dan lingkungan asri pesantren untuk menjaga kesehatan bersama.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 font-medium flex items-center justify-between">
+                        <span>Koordinator: Divisi Kebersihan</span>
+                        <span class="text-emerald-700 font-bold">Wajib</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-teal-100 text-teal-800">Sabtu Sore</span>
+                            <span class="text-xs text-slate-400 font-mono">16:00 WIB</span>
+                        </div>
+                        <h4 class="font-extrabold text-slate-900 text-base mb-2">Pelatihan Leadership & Dakwah</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Pengembangan soft-skills kepemimpinan, public speaking, retorika dakwah, dan manajemen organisasi santri.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 font-medium flex items-center justify-between">
+                        <span>Pengampu: Ust. Achmad Jauhari S.T. M.Kom</span>
+                        <span class="text-blue-700 font-bold">Pengembangan</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-extrabold px-3 py-1 rounded-full bg-rose-100 text-rose-800">Ahad Pagi</span>
+                            <span class="text-xs text-slate-400 font-mono">07:00 WIB</span>
+                        </div>
+                        <h4 class="font-extrabold text-slate-900 text-base mb-2">Olahraga & Keakraban Santri</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Futsal, jogging santai, dan sarapan bersama santri lintas angkatan guna mempererat ukhuwah islamiyah.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500 font-medium flex items-center justify-between">
+                        <span>Koordinator: Seksi Olahraga</span>
+                        <span class="text-slate-600 font-bold">Olahraga</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STRUKTUR KEPENGURUSAN PESANTREN SECTION -->
+    <section id="pengurus" class="py-20 lg:py-28 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pondok-50 border border-pondok-200 text-pondok-800 text-xs font-extrabold uppercase tracking-wider mb-4">
+                    <i class="fas fa-sitemap"></i>
+                    <span>Organisasi Pesantren</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    Struktur Kepengurusan Pesantren
+                </h2>
+                <p class="mt-3 text-slate-600 text-sm sm:text-base">
+                    Kolaborasi pembina asatidz dan dewan santri mahasiswa dalam mengelola operasional Pondok Darut Thalibin Telang.
+                </p>
+            </div>
+
+            <!-- Pengasuh Utama Card (Top) -->
+            <div class="max-w-xl mx-auto mb-12">
+                <div class="bg-gradient-to-br from-pondok-900 to-slate-900 text-white p-8 rounded-3xl shadow-xl text-center border border-pondok-700/60 relative overflow-hidden">
+                    <div class="w-20 h-20 rounded-full bg-gold-400/20 text-gold-400 flex items-center justify-center text-3xl mx-auto mb-4 border-2 border-gold-400/30">
+                        👨‍🏫
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-gold-500/20 text-gold-300 text-xs font-extrabold uppercase tracking-wider">
+                        Pengasuh & Pembina Pesantren
+                    </span>
+                    <h3 class="text-xl font-extrabold mt-3 text-white">Achmad Jauhari S.T., M.Kom</h3>
+                    <p class="text-xs text-pondok-200 mt-1">Dosen Teknik Informatika Universitas Trunojoyo Madura (NIP: 1981010920060410003)</p>
+                </div>
+            </div>
+
+            <!-- Pengurus Santri Grid (Kelompok 9 SKPL) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center hover:border-pondok-500 transition">
+                    <div class="w-14 h-14 rounded-full bg-pondok-100 text-pondok-800 flex items-center justify-center text-2xl mx-auto mb-3">
+                        👳‍♂️
+                    </div>
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 inline-block mb-1">
+                        Lurah Pondok
+                    </span>
+                    <h4 class="font-extrabold text-slate-900 text-xs">David Febrianto</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5 font-mono">NIM: 230411100062</p>
+                </div>
+
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center hover:border-pondok-500 transition">
+                    <div class="w-14 h-14 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center text-2xl mx-auto mb-3">
+                        👨‍💻
+                    </div>
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-blue-100 text-blue-800 inline-block mb-1">
+                        Sekretaris Umum
+                    </span>
+                    <h4 class="font-extrabold text-slate-900 text-xs">Moh. Yusuf Ardiansyah</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5 font-mono">NIM: 240411100050</p>
+                </div>
+
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center hover:border-pondok-500 transition">
+                    <div class="w-14 h-14 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center text-2xl mx-auto mb-3">
+                        💼
+                    </div>
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 inline-block mb-1">
+                        Bendahara Umum
+                    </span>
+                    <h4 class="font-extrabold text-slate-900 text-xs">Sulhan Humaidi</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5 font-mono">NIM: 240411100058</p>
+                </div>
+
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center hover:border-pondok-500 transition">
+                    <div class="w-14 h-14 rounded-full bg-rose-100 text-rose-800 flex items-center justify-center text-2xl mx-auto mb-3">
+                        🛡️
+                    </div>
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 inline-block mb-1">
+                        Divisi Keamanan
+                    </span>
+                    <h4 class="font-extrabold text-slate-900 text-xs">Anas</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5 font-mono">NIM: 240411100200</p>
+                </div>
+
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 text-center hover:border-pondok-500 transition">
+                    <div class="w-14 h-14 rounded-full bg-teal-100 text-teal-800 flex items-center justify-center text-2xl mx-auto mb-3">
+                        🧹
+                    </div>
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-teal-100 text-teal-800 inline-block mb-1">
+                        Divisi Sarpras
+                    </span>
+                    <h4 class="font-extrabold text-slate-900 text-xs">Yoga Andrian Febriyanto</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5 font-mono">NIM: 240411100167</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FITUR UNGGULAN SIMKAS SECTION -->
+    <section id="fitur" class="py-20 lg:py-28 bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pondok-50 border border-pondok-200 text-pondok-800 text-xs font-extrabold uppercase tracking-wider mb-4">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Modul Aplikasi</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    Fitur Unggulan SIMKAS
+                </h2>
+                <p class="mt-3 text-slate-600 text-sm sm:text-base">
+                    Transformasi digital administrasi pesantren agar kegiatan santri tercatat akurat, transparan, dan dapat dipantau orang tua.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Fitur 1 -->
+                <div class="bg-slate-50 hover:bg-white p-6 rounded-3xl border border-slate-200 hover:border-pondok-500 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-id-card-clip"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-2">Presensi RFID & QR</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Pencatatan kehadiran sholat berjamaah dan kajian wajib secara cepat menggunakan kartu santri RFID atau QR Code scanner.
+                    </p>
+                </div>
+
+                <!-- Fitur 2 -->
+                <div class="bg-slate-50 hover:bg-white p-6 rounded-3xl border border-slate-200 hover:border-amber-500 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-file-signature"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-2">E-Perizinan Santri</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Pengajuan surat izin keluar atau pulang asrama secara online dengan validasi terstruktur dari pengurus keamanan pondok.
+                    </p>
+                </div>
+
+                <!-- Fitur 3: Kedisiplinan -->
+                <div class="bg-slate-50 hover:bg-white p-6 rounded-3xl border border-slate-200 hover:border-rose-500 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-2">Kedisiplinan & Poin Sanksi</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Pencatatan jenis pelanggaran, kalkulasi bobot poin/kategori sanksi, monitoring status penyelesaian hukuman ta'zir per santri.
+                    </p>
+                </div>
+
+                <!-- Fitur 4 -->
+                <div class="bg-slate-50 hover:bg-white p-6 rounded-3xl border border-slate-200 hover:border-purple-500 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-2">Tata Kelola SPP & Makan</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Manajemen tagihan SPP bulanan dan uang katering makan. Upload bukti bayar transfer dan verifikasi bendahara secara transparan.
+                    </p>
+                </div>
+
+                <!-- Fitur 5: Kas Operasional -->
+                <div class="bg-slate-50 hover:bg-white p-6 rounded-3xl border border-slate-200 hover:border-teal-500 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-2">Buku Kas Operasional</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Pencatatan arus kas operasional (debit/kredit di luar tagihan personal), klasifikasi beban listrik/wifi/honor, dan monitoring saldo kas.
+                    </p>
+                </div>
+
+                <!-- Fitur 6 -->
+                <div class="bg-slate-50 hover:bg-white p-6 rounded-3xl border border-slate-200 hover:border-blue-500 hover:shadow-xl transition-all duration-300 group">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center text-xl mb-5 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-users-viewfinder"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-900 text-base mb-2">Akses Multi-Peran</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Hak akses terintegrasi untuk 3 peran: Pengurus/Dosen (Admin), Santri aktif UTM, dan Orang Tua/Wali Santri di rumah.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- CTA Box Inside Fitur -->
+            <div class="mt-14 rounded-3xl bg-gradient-to-r from-pondok-900 via-pondok-800 to-pondok-950 p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 border border-pondok-700/60">
+                <div class="space-y-2 text-center md:text-left">
+                    <h3 class="text-2xl sm:text-3xl font-extrabold">Siap Menggunakan SIMKAS?</h3>
+                    <p class="text-slate-300 text-xs sm:text-sm max-w-xl">
+                        Akses modul data induk santri, rekap absensi, perizinan, dan pembayaran langsung melalui portal web terpadu.
+                    </p>
+                </div>
+                <a href="/?login=1" class="shrink-0 px-8 py-3.5 rounded-full bg-gold-500 hover:bg-gold-400 text-slate-950 font-extrabold text-sm shadow-xl transition-all hover:scale-105">
+                    Buka Portal SIMKAS Sekarang &rarr;
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- KONTAK & LOKASI SECTION -->
+    <section id="kontak" class="py-20 lg:py-28 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-pondok-100 border border-pondok-200 text-pondok-800 text-xs font-extrabold uppercase tracking-wider mb-4">
+                    <i class="fas fa-map-location-dot"></i>
+                    <span>Informasi & Sekretariat</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    Hubungi & Kunjungi Kami
+                </h2>
+                <p class="mt-3 text-slate-600 text-sm sm:text-base">
+                    Pondok Pesantren Mahasiswa Darut Thalibin berlokasi di pusat pemukiman mahasiswa sekitar kampus UTM Telang.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-pondok-50 text-pondok-700 flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-location-dot"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-base mb-1">Alamat Pesantren</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Jl. Raya Telang, Perumahan Telang Indah, Kec. Kamal, Kab. Bangkalan, Madura, Jawa Timur (Kawasan Kampus UTM).
+                    </p>
+                </div>
+
+                <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-pondok-50 text-pondok-700 flex items-center justify-center text-xl mb-4">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-base mb-1">WhatsApp Pengurus</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Layanan informasi perizinan dan administrasi santri:
+                    </p>
+                    <a href="https://wa.me/6281234567890" target="_blank" class="text-xs font-extrabold text-pondok-700 hover:text-pondok-800">
+                        +62 812-3456-7890 (Pengurus) &rarr;
+                    </a>
+                </div>
+
+                <div class="bg-white p-7 rounded-3xl border border-slate-200 shadow-xs flex flex-col items-center text-center">
+                    <div class="w-12 h-12 rounded-2xl bg-pondok-50 text-pondok-700 flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4 class="font-bold text-slate-900 text-base mb-1">Email Resmi</h4>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Pertanyaan dan korespondensi resmi pesantren:
+                    </p>
+                    <a href="mailto:darutthalibin.telang@gmail.com" class="text-xs font-extrabold text-pondok-700 hover:text-pondok-800">
+                        darutthalibin.telang@gmail.com &rarr;
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-pondok-700 text-white font-extrabold flex items-center justify-center text-lg shadow-md">
+                        DT
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">PPM Darut Thalibin Telang</h4>
+                        <p class="text-xs text-slate-400">Sistem Informasi Manajemen Kegiatan & Administrasi Santri</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-6 text-xs font-semibold">
+                    <a href="#beranda" class="hover:text-white transition">Beranda</a>
+                    <a href="#profil" class="hover:text-white transition">Profil</a>
+                    <a href="#visi-misi" class="hover:text-white transition">Visi & Misi</a>
+                    <a href="#fitur" class="hover:text-white transition">Fitur</a>
+                    <a href="/?login=1" class="text-gold-400 hover:text-gold-300 font-bold transition">Portal SIMKAS</a>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+                <p>&copy; 2026 PPM Darut Thalibin Telang. All rights reserved.</p>
+                <p>Pengembangan SKPL Kelompok 9 &bull; Teknik Informatika UTM</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6281234567890" target="_blank" aria-label="Kontak WhatsApp" class="fixed bottom-7 right-7 z-50 bg-[#25D366] hover:bg-[#20b858] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform duration-200">
+        <i class="fab fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const toggleIcon = document.getElementById('toggle-icon');
+        const mobileItems = document.querySelectorAll('.mobile-item');
+
+        mobileToggle.addEventListener('click', () => {
+            const isOpen = !mobileMenu.classList.contains('hidden');
+            if (isOpen) {
+                mobileMenu.classList.add('hidden');
+                toggleIcon.classList.replace('fa-xmark', 'fa-bars');
+            } else {
+                mobileMenu.classList.remove('hidden');
+                toggleIcon.classList.replace('fa-bars', 'fa-xmark');
+            }
+        });
+
+        mobileItems.forEach(item => {
+            item.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                toggleIcon.classList.replace('fa-xmark', 'fa-bars');
+            });
+        });
+    </script>
+</body>
+</html>
