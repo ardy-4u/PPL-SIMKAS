@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import { useSimkas } from '../context/SimkasContext';
 import { AbsensiStatus } from '../types/simkas';
-import { Calendar, Clock, MapPin, QrCode } from 'lucide-react';
+import { Calendar, Clock, MapPin, ClipboardCheck } from 'lucide-react';
 
 export const KegiatanView: React.FC = () => {
-  const { role, kegiatans, santris, absensis, addAbsensi, quickScanRFID, showToast } = useSimkas();
-  const [activeTab, setActiveTab] = useState<'jadwal' | 'scan' | 'manual' | 'riwayat'>('jadwal');
-  
-  // Quick scan RFID state
-  const [scanInput, setScanInput] = useState('');
-  const [selectedKegiatanId, setSelectedKegiatanId] = useState('k1');
+  const { role, kegiatans, santris, absensis, addAbsensi, showToast } = useSimkas();
+  const [activeTab, setActiveTab] = useState<'jadwal' | 'manual' | 'riwayat'>('jadwal');
 
-  // Manual logger state
+  // Input Absen logger state
   const [manualKegId, setManualKegId] = useState('k1');
   const [manualSantriId, setManualSantriId] = useState(santris[0]?.id || '');
   const [manualStatus, setManualStatus] = useState<AbsensiStatus>('hadir');
@@ -20,14 +16,6 @@ export const KegiatanView: React.FC = () => {
   // History filter state
   const [filterDate, setFilterDate] = useState(new Date().toISOString().substring(0, 10));
   const [filterStatus, setFilterStatus] = useState<string>('Semua');
-
-  const handleScanSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!scanInput.trim()) return;
-    if (quickScanRFID(scanInput.trim(), selectedKegiatanId)) {
-      setScanInput('');
-    }
-  };
 
   const handleManualSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,21 +70,13 @@ export const KegiatanView: React.FC = () => {
           </button>
           
           {role === 'admin' && (
-            <>
-              <button
-                onClick={() => setActiveTab('scan')}
-                className={`px-3 py-2 rounded-xl transition flex items-center gap-1 ${activeTab === 'scan' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
-              >
-                <QrCode className="w-3.5 h-3.5 text-emerald-700" />
-                <span>Simulasi Scan RFID</span>
-              </button>
-              <button
-                onClick={() => setActiveTab('manual')}
-                className={`px-3 py-2 rounded-xl transition ${activeTab === 'manual' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
-              >
-                Input Manual
-              </button>
-            </>
+            <button
+              onClick={() => setActiveTab('manual')}
+              className={`px-3 py-2 rounded-xl transition flex items-center gap-1.5 ${activeTab === 'manual' ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-600 hover:text-slate-900'}`}
+            >
+              <ClipboardCheck className="w-3.5 h-3.5 text-emerald-700" />
+              <span>Input Absen</span>
+            </button>
           )}
 
           <button
@@ -151,19 +131,13 @@ export const KegiatanView: React.FC = () => {
               </div>
 
               {role === 'admin' && (
-                <div className="mt-4 pt-3 border-t border-slate-100 flex gap-2">
-                  <button
-                    onClick={() => { setSelectedKegiatanId(k.id); setActiveTab('scan'); }}
-                    className="flex-1 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl text-xs font-bold text-center flex items-center justify-center gap-1.5 transition"
-                  >
-                    <QrCode className="w-3.5 h-3.5" />
-                    <span>Buka Scanner</span>
-                  </button>
+                <div className="mt-4 pt-3 border-t border-slate-100">
                   <button
                     onClick={() => { setManualKegId(k.id); setActiveTab('manual'); }}
-                    className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold text-center transition"
+                    className="w-full py-2.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold text-center transition shadow-sm flex items-center justify-center gap-1.5"
                   >
-                    Input Manual
+                    <ClipboardCheck className="w-4 h-4" />
+                    <span>Input Absen</span>
                   </button>
                 </div>
               )}
@@ -172,77 +146,12 @@ export const KegiatanView: React.FC = () => {
         </div>
       )}
 
-      {/* Tab 2: Simulasi Scan RFID */}
-      {activeTab === 'scan' && role === 'admin' && (
-        <div className="bg-white rounded-3xl p-6 md:p-10 border border-slate-200 max-w-2xl mx-auto shadow-sm text-center">
-          <div className="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-inner">
-            <QrCode className="w-8 h-8" />
-          </div>
-
-          <h3 className="text-xl font-extrabold text-slate-800">Simulasi RFID / Barcode Scanner Absensi</h3>
-          <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto leading-relaxed">
-            Dalam implementasi nyata, santri menempelkan Kartu RFID ke perangkat reader atau memindai QR Code di gerbang masjid/aula. Silakan pilih kegiatan dan ketik NIS atau nama santri untuk mensimulasikan tap kartu.
-          </p>
-
-          <form onSubmit={handleScanSubmit} className="mt-6 space-y-4 max-w-md mx-auto text-left">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">Pilih Kegiatan Wajib Saat Ini</label>
-              <select
-                value={selectedKegiatanId}
-                onChange={(e) => setSelectedKegiatanId(e.target.value)}
-                className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 outline-none focus:ring-2 focus:ring-emerald-500/20"
-              >
-                {kegiatans.map(k => (
-                  <option key={k.id} value={k.id}>{k.nama} ({k.waktu})</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1.5">Input Barcode / NIS / Nama Santri</label>
-              <div className="relative">
-                <input
-                  type="text"
-                  required
-                  autoFocus
-                  value={scanInput}
-                  onChange={(e) => setScanInput(e.target.value)}
-                  placeholder="Ketik NIS (misal: 230411100062 atau David)..."
-                  className="w-full p-3 pl-4 pr-24 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-900 outline-none focus:ring-2 focus:ring-emerald-500/20"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-1.5 top-1.5 bottom-1.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition shadow-sm"
-                >
-                  Tap RFID
-                </button>
-              </div>
-            </div>
-          </form>
-
-          <div className="mt-6 pt-6 border-t border-slate-100 flex justify-center gap-2 flex-wrap">
-            <span className="text-[11px] text-slate-400 self-center">Contoh Cepat Tap:</span>
-            {santris.slice(0, 5).map(s => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => {
-                  quickScanRFID(s.nis, selectedKegiatanId);
-                }}
-                className="px-2.5 py-1 bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 rounded-lg text-xs font-bold font-mono transition"
-              >
-                {s.name.split(' ')[0]} ({s.nis.slice(-3)})
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Tab 3: Manual Input */}
+      {/* Tab 2: Input Absen */}
       {activeTab === 'manual' && role === 'admin' && (
         <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 max-w-3xl mx-auto shadow-sm">
           <h3 className="font-extrabold text-base text-slate-800 mb-4 pb-3 border-b border-slate-100 flex items-center gap-2">
-            <span>📝 Input Absensi Manual Santri</span>
+            <ClipboardCheck className="w-5 h-5 text-emerald-700" />
+            <span>Formulir Input Absen Santri</span>
           </h3>
 
           <form onSubmit={handleManualSubmit} className="space-y-4">
@@ -320,9 +229,10 @@ export const KegiatanView: React.FC = () => {
 
             <button
               type="submit"
-              className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-700/25 transition mt-4"
+              className="w-full py-3 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-700/25 transition mt-4 flex items-center justify-center gap-2"
             >
-              Simpan Catatan Absensi
+              <ClipboardCheck className="w-4 h-4" />
+              <span>Simpan Catatan Absen</span>
             </button>
           </form>
         </div>
