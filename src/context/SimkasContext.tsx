@@ -122,7 +122,7 @@ export const SimkasProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   });
   
   // Auto-migration to ensure all clients use updated roster (David Febrianto & Kelompok 9)
-  const DATA_VERSION = 'v5_david_febrianto_kelompok9';
+  const DATA_VERSION = 'v6_david_izin_wali';
   const savedVersion = localStorage.getItem('simkas_version');
   if (savedVersion !== DATA_VERSION) {
     localStorage.setItem('simkas_version', DATA_VERSION);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSimkas } from '../context/SimkasContext';
-import { Check, X, Clock, FileText, Send, AlertTriangle, Calendar } from 'lucide-react';
+import { Check, X, Clock, FileText, Send, AlertTriangle, Calendar, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 export const PerizinanView: React.FC = () => {
   const { role, currentUser, perizinans, santris, submitIzin, verifyIzin, showToast } = useSimkas();
@@ -59,7 +59,16 @@ export const PerizinanView: React.FC = () => {
   };
 
   const displayedList = perizinans.filter(p => {
-    const matchUser = role === 'admin' || p.santriId === currentUser.id;
+    if (role === 'admin') {
+      return filterStatus === 'Semua' || p.status === filterStatus;
+    }
+    if (role === 'ortu') {
+      // Wali Santri hanya melihat riwayat izin David Febrianto yang telah disetujui pengurus
+      const isDavid = p.santriId === 's1' || p.santriNama === 'David Febrianto';
+      return isDavid && p.status === 'disetujui';
+    }
+    // Role Santri
+    const matchUser = p.santriId === currentUser.id || p.santriNama === currentUser.name;
     const matchStatus = filterStatus === 'Semua' || p.status === filterStatus;
     return matchUser && matchStatus;
   });
@@ -69,25 +78,36 @@ export const PerizinanView: React.FC = () => {
       {/* Header */}
       <div className="bg-white rounded-3xl p-6 border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
         <div>
-          <h2 className="text-lg font-bold text-slate-800">📝 Modul Perizinan Keluar / Pulang Santri</h2>
+          <h2 className="text-lg font-bold text-slate-800">
+            {role === 'ortu' ? '📋 Izin Santri (David Febrianto)' : '📝 Modul Perizinan Keluar / Pulang Santri'}
+          </h2>
           <p className="text-xs text-slate-500 mt-1">
-            Mekanisme pengajuan dan verifikasi perizinan santri secara terpusat, transparan, dan terdokumentasi dengan baik.
+            {role === 'ortu'
+              ? 'Monitoring riwayat perizinan keluar pondok dan pulang kampung ananda David Febrianto yang telah resmi disetujui pengurus.'
+              : 'Mekanisme pengajuan dan verifikasi perizinan santri secara terpusat, transparan, dan terdokumentasi dengan baik.'}
           </p>
         </div>
 
-        <div className="flex gap-1.5 p-1 bg-slate-100 rounded-2xl text-xs font-bold self-start md:self-auto">
-          {['Semua', 'pending', 'disetujui', 'ditolak'].map(st => (
-            <button
-              key={st}
-              onClick={() => setFilterStatus(st)}
-              className={`px-3 py-2 rounded-xl capitalize transition ${
-                filterStatus === st ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              {st === 'Semua' ? 'Semua Status' : st}
-            </button>
-          ))}
-        </div>
+        {role === 'ortu' ? (
+          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs font-bold text-emerald-800 self-start md:self-auto">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <span>Izin Disetujui ({displayedList.length} Catatan)</span>
+          </div>
+        ) : (
+          <div className="flex gap-1.5 p-1 bg-slate-100 rounded-2xl text-xs font-bold self-start md:self-auto">
+            {['Semua', 'pending', 'disetujui', 'ditolak'].map(st => (
+              <button
+                key={st}
+                onClick={() => setFilterStatus(st)}
+                className={`px-3 py-2 rounded-xl capitalize transition ${
+                  filterStatus === st ? 'bg-white text-emerald-800 shadow-sm' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                {st === 'Semua' ? 'Semua Status' : st}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -157,6 +177,39 @@ export const PerizinanView: React.FC = () => {
                 </button>
               </form>
             </div>
+          ) : role === 'ortu' ? (
+            <div className="bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 text-white rounded-3xl p-6 shadow-xl space-y-4">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                <h3 className="font-extrabold text-sm">Informasi Izin Santri</h3>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Sebagai wali santri, Anda dapat memantau kapan ananda <strong>David Febrianto</strong> izin keluar atau pulang yang telah resmi <strong>disetujui</strong> oleh pengurus pondok pesantren.
+              </p>
+
+              <div className="bg-white/10 rounded-2xl p-4 border border-white/10 space-y-2 text-xs">
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-300">Nama Santri:</span>
+                  <span className="font-bold text-emerald-300">David Febrianto</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-300">Kamar Asrama:</span>
+                  <span className="font-mono font-bold text-white">A-01</span>
+                </div>
+                <div className="flex justify-between items-center pt-2 border-t border-white/10">
+                  <span className="text-slate-300">Status Validasi:</span>
+                  <span className="font-extrabold text-emerald-400 text-xs">✓ Resmi Disetujui</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-300">Total Izin Disetujui:</span>
+                  <span className="font-extrabold text-emerald-300 font-mono">{displayedList.length} Catatan</span>
+                </div>
+              </div>
+
+              <div className="p-3 bg-emerald-500/20 border border-emerald-400/30 rounded-2xl text-[11px] text-emerald-200">
+                🛡️ Sistem hanya menampilkan data izin yang telah disetujui pengurus, lengkap dengan tanggal dan keperluannya.
+              </div>
+            </div>
           ) : (
             <div className="bg-gradient-to-br from-slate-900 via-emerald-900 to-slate-900 text-white rounded-3xl p-6 shadow-xl space-y-4">
               <div className="flex items-center gap-2">
@@ -164,9 +217,7 @@ export const PerizinanView: React.FC = () => {
                 <h3 className="font-extrabold text-sm">Panel Pengawas Perizinan</h3>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed">
-                {role === 'admin' 
-                  ? 'Sebagai pengurus, Anda berwenang memvalidasi alasan izin keluar/pulang santri. Apabila menolak, berikan catatan perbaikan yang mendidik.' 
-                  : 'Sebagai wali santri, Anda dapat memantau kapan putra Anda mengajukan izin pulang atau keluar lingkungan pesantren secara real-time.'}
+                Sebagai pengurus, Anda berwenang memvalidasi alasan izin keluar/pulang santri. Apabila menolak, berikan catatan perbaikan yang mendidik.
               </p>
 
               <div className="bg-white/10 rounded-2xl p-4 border border-white/10 space-y-2">
@@ -191,7 +242,7 @@ export const PerizinanView: React.FC = () => {
         <div className="lg:col-span-2 space-y-4">
           {displayedList.length === 0 ? (
             <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center text-slate-400 font-medium">
-              Tidak ada data pengajuan perizinan yang sesuai dengan filter.
+              Tidak ada data perizinan santri yang sesuai.
             </div>
           ) : (
             displayedList.map(p => {
@@ -207,10 +258,10 @@ export const PerizinanView: React.FC = () => {
                         isApproved ? 'bg-emerald-100 text-emerald-800 border border-emerald-200' :
                         'bg-rose-100 text-rose-800 border border-rose-200'
                       }`}>
-                        {p.status}
+                        {isApproved ? '✓ Disetujui' : p.status}
                       </span>
                       <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5" /> {p.tglPengajuan}
+                        <Clock className="w-3.5 h-3.5" /> Diajukan: {p.tglPengajuan}
                       </span>
                     </div>
 
@@ -223,9 +274,9 @@ export const PerizinanView: React.FC = () => {
                     <div className="space-y-1">
                       <h4 className="font-bold text-base text-slate-800">{p.santriNama}</h4>
                       <p className="text-xs text-emerald-700 font-bold">Kamar Asrama: {p.kamar}</p>
-                      <div className="flex items-center gap-2 text-xs text-slate-500 font-medium pt-1">
-                        <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span>Periode: <strong>{p.tglBerangkat}</strong> s/d <strong>{p.tglKembali}</strong></span>
+                      <div className="flex items-center gap-2 text-xs text-slate-700 font-medium pt-1">
+                        <Calendar className="w-4 h-4 text-emerald-700 shrink-0" />
+                        <span>Kapan: <strong>{p.tglBerangkat}</strong> s/d <strong>{p.tglKembali}</strong></span>
                       </div>
                     </div>
 
@@ -249,8 +300,8 @@ export const PerizinanView: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="p-3 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-700 leading-relaxed font-medium">
-                    <strong className="text-slate-900 block mb-0.5">Alasan Perizinan:</strong>
+                  <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-800 leading-relaxed font-medium">
+                    <strong className="text-emerald-900 block mb-0.5 font-bold">📌 Izin Tentang Apa (Keperluan):</strong>
                     {p.alasan}
                   </div>
 

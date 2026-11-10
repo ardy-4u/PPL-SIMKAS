@@ -288,12 +288,28 @@ export const INITIAL_PERIZINAN: Perizinan[] = [
     santriId: 's1',
     santriNama: 'David Febrianto',
     kamar: 'A-01',
+    jenis: 'pulang',
+    tglBerangkat: '2026-05-10',
+    tglKembali: '2026-05-13',
+    alasan: 'Izin pulang kampung menghadiri haul akbar dan silaturahmi keluarga di Sampang.',
+    status: 'disetujui',
+    catatanAdmin: 'Telah dikonfirmasi langsung dengan Wali Santri (Bpk. Rahmat). Disetujui kembali sebelum maghrib tanggal 13 Mei.',
+    tglPengajuan: '2026-05-08 09:15:22',
+    diverifikasiOleh: 'Achmad Jauhari S.T., M.Kom'
+  },
+  {
+    id: 'iz1_b',
+    santriId: 's1',
+    santriNama: 'David Febrianto',
+    kamar: 'A-01',
     jenis: 'keluar',
-    tglBerangkat: '2026-05-20',
-    tglKembali: '2026-05-21',
-    alasan: 'Rapat koordinasi Himpunan Mahasiswa Teknik Informatika (HIMATIF) UTM di Bangkalan kota.',
-    status: 'pending',
-    tglPengajuan: '2026-05-18 09:15:22'
+    tglBerangkat: '2026-05-18',
+    tglKembali: '2026-05-18',
+    alasan: 'Mengikuti Lomba Desain Web & Workshop TI Nasional di Gedung Rektorat UTM.',
+    status: 'disetujui',
+    catatanAdmin: 'Disetujui. Surat tugas delegasi kampus Fakultas Teknik telah diverifikasi.',
+    tglPengajuan: '2026-05-17 14:10:00',
+    diverifikasiOleh: 'Ust. Jauhari'
   },
   {
     id: 'iz2',

@@ -19,7 +19,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     { id: 'dashboard', label: 'Dashboard Utama', icon: LayoutDashboard, roles: ['admin', 'santri', 'ortu'] },
     { id: 'santris', label: 'Data Induk Santri', icon: Users, roles: ['admin'] },
     { id: 'kegiatan', label: 'Kegiatan & Absensi', icon: CalendarDays, roles: ['admin', 'santri'] },
-    { id: 'perizinan', label: 'Pengajuan & Verifikasi Izin', icon: FileText, roles: ['admin', 'santri', 'ortu'] },
+    { id: 'perizinan', label: role === 'ortu' ? 'Izin Santri' : 'Pengajuan & Verifikasi Izin', icon: FileText, roles: ['admin', 'santri', 'ortu'] },
     { id: 'kedisiplinan', label: 'Kedisiplinan & Pelanggaran', icon: ShieldAlert, roles: ['admin', 'santri', 'ortu'] },
     { id: 'spp', label: role === 'admin' ? 'Persetujuan SPP Santri' : 'Tagihan SPP (1/3/Semester)', icon: CreditCard, roles: ['admin', 'santri', 'ortu'] },
     { id: 'kas-santri', label: role === 'admin' ? 'Persetujuan Kas Santri' : 'Iuran Kas Santri', icon: Coins, roles: ['admin', 'santri', 'ortu'] },
