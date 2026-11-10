@@ -641,7 +641,7 @@ export const DashboardView: React.FC = () => {
         </div>
         <div className="bg-slate-800 px-4 py-2.5 rounded-2xl border border-slate-700 text-xs font-bold text-center shrink-0">
           <span className="text-slate-400">Prodi: </span>
-          <span className="text-white">Teknik Informatika UTM '26</span>
+          <span className="text-white">Teknik Informatika UTM</span>
         </div>
       </div>
     </div>
