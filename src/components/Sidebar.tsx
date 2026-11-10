@@ -103,7 +103,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           <div className="p-3 bg-gradient-to-br from-emerald-700 to-teal-900 rounded-2xl text-white mb-3 shadow-md">
             <div className="flex items-center gap-2 mb-1">
               <ShieldCheck className="w-4 h-4 text-emerald-300" />
-              <span className="text-xs font-extrabold">SKPL Kelompok 9</span>
+              <span className="text-xs font-extrabold">PPL Kelompok 4</span>
             </div>
             <p className="text-[10px] text-emerald-100/80 leading-relaxed">
               Teknik Informatika UTM 2026. Dosen: Achmad Jauhari S.T., M.Kom.

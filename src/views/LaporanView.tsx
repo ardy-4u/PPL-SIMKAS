@@ -79,7 +79,7 @@ export const LaporanView: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 text-emerald-800 uppercase tracking-wider">
-              SKPL Laporan Bulanan
+              PPL Laporan Bulanan
             </span>
           </div>
           <h2 className="text-lg font-bold text-slate-800">📊 Laporan Rekapitulasi Pondok Pesantren</h2>
@@ -337,7 +337,7 @@ export const LaporanView: React.FC = () => {
             <p className="text-[10px] text-slate-500 font-mono">NIP: 1981010920060410003</p>
           </div>
           <div>
-            <p className="mb-12">Bangkalan, {new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })}<br />Ketua Kelompok 9 (SKPL)</p>
+            <p className="mb-12">Bangkalan, {new Date().toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' })}<br />Ketua Kelompok 4 (PPL)</p>
             <p className="underline font-black">David Febrianto</p>
             <p className="text-[10px] text-slate-500 font-mono">NIM: 230411100062</p>
           </div>

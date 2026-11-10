@@ -146,15 +146,15 @@ export const DatabaseModal: React.FC = () => {
                   <div>
                     <h4 className="font-bold text-rose-900 text-sm flex items-center gap-2">
                       <RotateCcw className="w-4 h-4 text-rose-600" />
-                      <span>Reset Database ke Default SKPL</span>
+                      <span>Reset Database ke Default PPL</span>
                     </h4>
                     <p className="text-xs text-rose-700 mt-2 leading-relaxed">
-                      Mengembalikan seluruh data santri, absensi, perizinan, dan keuangan ke kondisi awal sesuai dengan spesifikasi dokumen SKPL Kelompok 9 (David Febrianto, Moh. Yusuf Ardiansyah, Sulhan Humaidi, Anas, Yoga Andrian Febriyanto).
+                      Mengembalikan seluruh data santri, absensi, perizinan, dan keuangan ke kondisi awal sesuai dengan spesifikasi dokumen PPL Kelompok 4 (David Febrianto, Moh. Yusuf Ardiansyah, Sulhan Humaidi, Anas, Yoga Andrian Febriyanto).
                     </p>
                   </div>
                   <button
                     onClick={() => {
-                      if (window.confirm('Anda yakin ingin mereset seluruh data kembali ke kondisi awal demo SKPL?')) {
+                      if (window.confirm('Anda yakin ingin mereset seluruh data kembali ke kondisi awal demo PPL?')) {
                         resetDatabase();
                       }
                     }}

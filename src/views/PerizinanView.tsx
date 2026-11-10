@@ -329,7 +329,7 @@ export const PerizinanView: React.FC = () => {
               <span>Berikan Alasan Penolakan Izin</span>
             </h3>
             <p className="text-xs text-slate-500 mb-4 leading-relaxed">
-              SKPL mewajibkan adanya alasan penolakan yang transparan agar santri atau wali santri mengetahui alasan pengajuan tidak disetujui.
+              Sistem PPL mewajibkan adanya alasan penolakan yang transparan agar santri atau wali santri mengetahui alasan pengajuan tidak disetujui.
             </p>
 
             <form onSubmit={handleRejectSubmit} className="space-y-4">

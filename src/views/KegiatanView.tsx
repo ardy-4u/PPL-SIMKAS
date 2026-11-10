@@ -44,9 +44,10 @@ export const KegiatanView: React.FC = () => {
   };
 
   const filteredHistory = absensis.filter(a => {
+    const matchUser = role === 'admin' || a.santriId === 's1' || a.santriNama === 'David Febrianto';
     const matchDate = a.tanggal === filterDate;
     const matchStatus = filterStatus === 'Semua' || a.status === filterStatus;
-    return matchDate && matchStatus;
+    return matchUser && matchDate && matchStatus;
   });
 
   return (

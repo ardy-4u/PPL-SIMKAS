@@ -121,8 +121,8 @@ export const SimkasProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return false;
   });
   
-  // Auto-migration to ensure all clients use updated roster (David Febrianto & Kelompok 9)
-  const DATA_VERSION = 'v6_david_izin_wali';
+  // Auto-migration to ensure all clients use updated roster (David Febrianto & Kelompok 4 PPL)
+  const DATA_VERSION = 'v7_ppl_kelompok_4';
   const savedVersion = localStorage.getItem('simkas_version');
   if (savedVersion !== DATA_VERSION) {
     localStorage.setItem('simkas_version', DATA_VERSION);
@@ -174,7 +174,7 @@ export const SimkasProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     {
       id: 'n1',
       title: 'Sistem Diperbarui',
-      message: 'SIMKAS versi 2.0 (SKPL Kelompok 9) berhasil diluncurkan.',
+      message: 'SIMKAS versi 2.0 (PPL Kelompok 4) berhasil diluncurkan.',
       type: 'info',
       timestamp: 'Baru saja',
       read: false
@@ -182,7 +182,7 @@ export const SimkasProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     {
       id: 'n2',
       title: 'Tagihan Baru Terbit',
-      message: 'Tagihan SPP dan Uang Makan bulan Mei 2026 telah diterbitkan.',
+      message: 'Tagihan SPP dan Iuran Kas bulan Mei 2026 telah diterbitkan.',
       type: 'warning',
       timestamp: '2 jam lalu',
       read: false
@@ -471,7 +471,7 @@ export const SimkasProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     setKeuangans(INITIAL_KEUANGAN);
     setPelanggarans(INITIAL_PELANGGARAN);
     setKasOperasionals(INITIAL_KAS_OPERASIONAL);
-    showToast('Database direset ke data awal demo SKPL (Kelompok 9)', 'warning');
+    showToast('Database direset ke data awal demo PPL (Kelompok 4)', 'warning');
   };
 
   const exportDatabaseJson = () => {
@@ -619,7 +619,7 @@ CREATE TABLE \`kas_operasional\` (
   \`created_at\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- INSERT DATA CONTOH KELOMPOK 9 UTM
+-- INSERT DATA CONTOH KELOMPOK 4 UTM
 INSERT INTO \`santri\` (\`id_santri\`, \`nis\`, \`nama\`, \`kamar\`, \`angkatan\`, \`tempat_lahir\`, \`tanggal_lahir\`, \`no_hp\`, \`wali_nama\`, \`wali_hp\`, \`fakultas_utm\`, \`prodi_utm\`) VALUES
 ('s1', '230411100062', 'David Febrianto', 'A-01', 2023, 'Sampang', '2005-08-21', '081234567890', 'Bpk. Rahmat', '082133445566', 'Fakultas Teknik', 'Teknik Informatika'),
 ('s2', '240411100050', 'Moh. Yusuf Ardiansyah', 'A-02', 2024, 'Bangkalan', '2006-03-12', '081298765432', 'Bpk. Ardiansyah', '082177889900', 'Fakultas Teknik', 'Teknik Informatika'),

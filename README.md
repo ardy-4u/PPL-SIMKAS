@@ -1,8 +1,8 @@
 # SIMKAS - Sistem Informasi Manajemen Pondok Pesantren (PPM Darut Thalibin Telang)
 
-Spesifikasi Kebutuhan Perangkat Lunak (SKPL) & Prototipe Sistem Manajemen Santri Berbasis Web.
+Proyek Perangkat Lunak (PPL) & Prototipe Sistem Manajemen Santri Berbasis Web.
 
-## 👥 Anggota Kelompok 9 (PPL - Teknik Informatika UTM)
+## 👥 Anggota Kelompok 4 (PPL - Teknik Informatika UTM)
 - **David Febrianto** (230411100062)
 - **Moh. Yusuf Ardiansyah** (240411100050)
 - **Sulhan Humaidi** (240411100058)

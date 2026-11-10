@@ -85,7 +85,17 @@ export const DashboardView: React.FC = () => {
   };
 
   // Filter for santri role
-  const myKeu = keuangans.filter(k => k.santriId === currentUser.id);
+  const myKeu = keuangans.filter(k => k.santriId === 's1' || k.santriNama === 'David Febrianto');
+  const myApprovedIzin = perizinans.filter(p => (p.santriId === 's1' || p.santriNama === 'David Febrianto') && p.status === 'disetujui');
+  const myAbsenList = absensis.filter(a => a.santriId === 's1' || a.santriNama === 'David Febrianto');
+  const myHadirCount = myAbsenList.filter(a => a.status === 'hadir').length;
+  const myIzinCount = myAbsenList.filter(a => a.status === 'izin').length;
+  const mySakitCount = myAbsenList.filter(a => a.status === 'sakit').length;
+  const myAlphaCount = myAbsenList.filter(a => a.status === 'alpha').length;
+  const myTotalKegiatan = (myHadirCount + myIzinCount + mySakitCount + myAlphaCount) || 1;
+  const myPersonalAttendanceRate = Math.round((myHadirCount / myTotalKegiatan) * 100) || 100;
+  const myPelanggaranList = pelanggarans.filter(p => p.santriId === 's1' || p.santriNama === 'David Febrianto');
+  const myActiveHukuman = myPelanggaranList.filter(p => p.statusHukuman !== 'selesai').length;
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -114,7 +124,7 @@ export const DashboardView: React.FC = () => {
                 Selamat Datang, {currentUser.name} 👋
               </h2>
               <p className="text-xs md:text-sm text-emerald-100/90 mt-1 max-w-xl leading-relaxed">
-                {role === 'admin' && 'Sistem Informasi Manajemen Kegiatan dan Administrasi Santri (SKPL Kelompok 9). Seluruh modul beroperasi dalam mode terintegrasi 24 jam.'}
+                {role === 'admin' && 'Sistem Informasi Manajemen Kegiatan dan Administrasi Santri (PPL Kelompok 4). Seluruh modul beroperasi dalam mode terintegrasi 24 jam.'}
                 {role === 'santri' && 'Anda terdaftar sebagai santri aktif di kamar A-01. Harap lakukan absensi kegiatan wajib dan pastikan tagihan bulanan telah terverifikasi.'}
                 {role === 'ortu' && 'Memantau aktivitas, absensi real-time, dan status pembayaran dari ananda David Febrianto (NIM: 230411100062).'}
               </p>
@@ -167,215 +177,318 @@ export const DashboardView: React.FC = () => {
         {/* Stat 1 */}
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-extrabold text-slate-500 uppercase">Total Santri Aktif</span>
+            <span className="text-xs font-extrabold text-slate-500 uppercase">
+              {role === 'admin' ? 'Total Santri Aktif' : 'Status Santri'}
+            </span>
             <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
               <Users className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl md:text-3xl font-extrabold text-slate-800">{totalSantri}</span>
+            <span className="text-2xl md:text-3xl font-extrabold text-slate-800">
+              {role === 'admin' ? totalSantri : 'Aktif'}
+            </span>
             <span className="text-xs text-emerald-600 font-bold flex items-center">
-              <TrendingUp className="w-3 h-3 mr-0.5" /> 100%
+              <TrendingUp className="w-3 h-3 mr-0.5" /> {role === 'admin' ? '100%' : 'Kamar A-01'}
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">Terbagi di 4 kamar asrama</p>
+          <p className="text-[11px] text-slate-400 mt-1">
+            {role === 'admin' ? 'Terbagi di 4 kamar asrama' : 'David Febrianto (230411100062)'}
+          </p>
         </div>
 
         {/* Stat 2 */}
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-extrabold text-slate-500 uppercase">Izin Keluar / Pulang</span>
+            <span className="text-xs font-extrabold text-slate-500 uppercase">
+              {role === 'admin' ? 'Izin Keluar / Pulang' : (role === 'ortu' ? 'Izin Santri' : 'Surat Izin Saya')}
+            </span>
             <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
               <FileText className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl md:text-3xl font-extrabold text-slate-800">
-              {role === 'admin' ? pendingIzin : myKeu.length}
+              {role === 'admin' ? pendingIzin : `${myApprovedIzin.length} Izin`}
             </span>
             <span className="text-xs text-amber-600 font-bold">
-              {role === 'admin' ? 'Perlu Validasi' : 'Total Riwayat Saya'}
+              {role === 'admin' ? 'Perlu Validasi' : 'Resmi Disetujui'}
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">Sistem persetujuan digital</p>
+          <p className="text-[11px] text-slate-400 mt-1">
+            {role === 'admin' ? 'Sistem persetujuan digital' : 'Izin keluar & kepulangan santri'}
+          </p>
         </div>
 
         {/* Stat 3 */}
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-extrabold text-slate-500 uppercase">Tingkat Kehadiran Realtime</span>
+            <span className="text-xs font-extrabold text-slate-500 uppercase">
+              {role === 'admin' ? 'Tingkat Kehadiran Realtime' : (role === 'ortu' ? 'Kehadiran Santri' : 'Kehadiran Saya')}
+            </span>
             <div className="w-8 h-8 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
               <Clock className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl md:text-3xl font-extrabold text-slate-800">{attendanceRate}%</span>
-            <span className="text-xs text-blue-600 font-bold">Live Sensor</span>
+            <span className="text-2xl md:text-3xl font-extrabold text-slate-800">
+              {role === 'admin' ? `${attendanceRate}%` : `${myPersonalAttendanceRate}%`}
+            </span>
+            <span className="text-xs text-blue-600 font-bold">
+              {role === 'admin' ? 'Live Sensor' : 'Disiplin Tinggi'}
+            </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">Sholat Jamaah & Kajian Wajib</p>
+          <p className="text-[11px] text-slate-400 mt-1">
+            {role === 'admin' ? 'Sholat Jamaah & Kajian Wajib' : `${myHadirCount} Hadir Sholat & Kajian`}
+          </p>
         </div>
 
         {/* Stat 4 */}
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-extrabold text-slate-500 uppercase">Verifikasi Keuangan</span>
+            <span className="text-xs font-extrabold text-slate-500 uppercase">
+              {role === 'admin' ? 'Verifikasi Keuangan' : 'Administrasi SPP & Kas'}
+            </span>
             <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
               <CreditCard className="w-4 h-4" />
             </div>
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl md:text-3xl font-extrabold text-slate-800">
-              {role === 'admin' ? pendingKeu : myKeu.filter(k => k.status === 'lunas').length}
+              {role === 'admin' ? pendingKeu : `${myKeu.filter(k => k.status === 'lunas').length} Lunas`}
             </span>
             <span className="text-xs text-purple-600 font-bold">
-              {role === 'admin' ? 'Menunggu Validasi' : 'Transaksi Lunas'}
+              {role === 'admin' ? 'Menunggu Validasi' : 'Terverifikasi'}
             </span>
           </div>
-          <p className="text-[11px] text-slate-400 mt-1">Tagihan SPP & Iuran Kas Santri</p>
+          <p className="text-[11px] text-slate-400 mt-1">
+            {role === 'admin' ? 'Tagihan SPP & Iuran Kas Santri' : 'Bebas tunggakan bulanan'}
+          </p>
         </div>
       </div>
 
-      {/* Attendance summary bar (BENAR-BENAR REAL-TIME) */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-extrabold text-slate-800 text-base flex items-center gap-2">
-                <span>📊 Pemantauan Kehadiran Real-time Hari Ini</span>
-              </h3>
-              <span className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 text-[11px] font-extrabold px-3 py-1 rounded-full border border-emerald-300 shadow-xs">
-                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
-                <span>LIVE • {liveTimeString}</span>
-              </span>
+      {/* Attendance summary bar */}
+      {role === 'admin' ? (
+        <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-extrabold text-slate-800 text-base flex items-center gap-2">
+                  <span>📊 Pemantauan Kehadiran Real-time Hari Ini</span>
+                </h3>
+                <span className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 text-[11px] font-extrabold px-3 py-1 rounded-full border border-emerald-300 shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
+                  <span>LIVE • {liveTimeString}</span>
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 mt-1">
+                {liveDateString} &bull; Gerbang RFID & Masjid PPM Darut Thalibin Telang (Sensor Online)
+              </p>
             </div>
-            <p className="text-xs text-slate-500 mt-1">
-              {liveDateString} &bull; Gerbang RFID & Masjid PPM Darut Thalibin Telang (Sensor Online)
-            </p>
+
+            <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
+              <button
+                onClick={handleSimulateRfidTap}
+                disabled={isSimulating}
+                className={`px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm active:scale-95 ${
+                  isSimulating ? 'opacity-80 ring-2 ring-emerald-400' : ''
+                }`}
+                title="Klik untuk mensimulasikan tap kartu RFID santri real-time"
+              >
+                <span>⚡</span>
+                <span>{isSimulating ? 'Memproses Tap RFID...' : 'Simulasi Tap RFID Real-Time'}</span>
+              </button>
+
+              <button
+                onClick={() => setCurrentView('kegiatan')}
+                className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-1 transition"
+              >
+                <span>Lihat Log & Input Absen</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 self-start sm:self-auto flex-wrap">
-            <button
-              onClick={handleSimulateRfidTap}
-              disabled={isSimulating}
-              className={`px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm active:scale-95 ${
-                isSimulating ? 'opacity-80 ring-2 ring-emerald-400' : ''
-              }`}
-              title="Klik untuk mensimulasikan tap kartu RFID santri real-time"
-            >
-              <span>⚡</span>
-              <span>{isSimulating ? 'Memproses Tap RFID...' : 'Simulasi Tap RFID Real-Time'}</span>
-            </button>
+          {/* PROGRESS BAR PROPORTIONAL 100% */}
+          <div className="space-y-1.5">
+            <div className="h-6 rounded-full overflow-hidden bg-slate-100 flex p-0.5 border border-slate-200 shadow-inner">
+              {hadirCount > 0 && (
+                <div 
+                  style={{ width: `${hadirPct}%` }} 
+                  className="bg-emerald-600 h-full rounded-l-full transition-all duration-700 flex items-center justify-center text-[10px] text-white font-extrabold overflow-hidden shadow-xs" 
+                  title={`Hadir: ${hadirCount} Santri (${hadirPct}%)`}
+                >
+                  {parseFloat(hadirPct) >= 12 && `${hadirPct}% Hadir`}
+                </div>
+              )}
+              {izinCount > 0 && (
+                <div 
+                  style={{ width: `${izinPct}%` }} 
+                  className="bg-amber-400 h-full transition-all duration-700 flex items-center justify-center text-[10px] text-amber-950 font-extrabold overflow-hidden" 
+                  title={`Izin: ${izinCount} Santri (${izinPct}%)`}
+                >
+                  {parseFloat(izinPct) >= 8 && `${izinPct}%`}
+                </div>
+              )}
+              {sakitCount > 0 && (
+                <div 
+                  style={{ width: `${sakitPct}%` }} 
+                  className="bg-blue-500 h-full transition-all duration-700 flex items-center justify-center text-[10px] text-white font-extrabold overflow-hidden" 
+                  title={`Sakit: ${sakitCount} Santri (${sakitPct}%)`}
+                >
+                  {parseFloat(sakitPct) >= 8 && `${sakitPct}%`}
+                </div>
+              )}
+              {alphaCount > 0 && (
+                <div 
+                  style={{ width: `${alphaPct}%` }} 
+                  className="bg-rose-500 h-full rounded-r-full transition-all duration-700 flex items-center justify-center text-[10px] text-white font-extrabold overflow-hidden" 
+                  title={`Alpha: ${alphaCount} Santri (${alphaPct}%)`}
+                >
+                  {parseFloat(alphaPct) >= 8 && `${alphaPct}%`}
+                </div>
+              )}
+            </div>
+            <div className="flex justify-between items-center text-[10px] text-slate-400 font-bold px-1">
+              <span>0%</span>
+              <span>Total Tercatat: {hadirCount + izinCount + sakitCount + alphaCount} Santri Aktif</span>
+              <span>100%</span>
+            </div>
+          </div>
+
+          {/* Breakdown 4 Status Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="bg-emerald-50 rounded-2xl p-3.5 flex items-center gap-3 border border-emerald-100">
+              <div className="w-3.5 h-3.5 rounded-full bg-emerald-600 shrink-0"></div>
+              <div>
+                <p className="text-xs font-bold text-slate-700">Hadir</p>
+                <p className="text-sm font-extrabold text-emerald-800">{hadirCount} Santri ({hadirPct}%)</p>
+              </div>
+            </div>
+
+            <div className="bg-amber-50 rounded-2xl p-3.5 flex items-center gap-3 border border-amber-100">
+              <div className="w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0"></div>
+              <div>
+                <p className="text-xs font-bold text-slate-700">Izin Keluar/Pulang</p>
+                <p className="text-sm font-extrabold text-amber-800">{izinCount} Santri ({izinPct}%)</p>
+              </div>
+            </div>
+
+            <div className="bg-blue-50 rounded-2xl p-3.5 flex items-center gap-3 border border-blue-100">
+              <div className="w-3.5 h-3.5 rounded-full bg-blue-500 shrink-0"></div>
+              <div>
+                <p className="text-xs font-bold text-slate-700">Sakit</p>
+                <p className="text-sm font-extrabold text-blue-800">{sakitCount} Santri ({sakitPct}%)</p>
+              </div>
+            </div>
+
+            <div className="bg-rose-50 rounded-2xl p-3.5 flex items-center gap-3 border border-rose-100">
+              <div className="w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0"></div>
+              <div>
+                <p className="text-xs font-bold text-slate-700">Alpha (Tanpa Keterangan)</p>
+                <p className="text-sm font-extrabold text-rose-800">{alphaCount} Santri ({alphaPct}%)</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Live Ticker Feed */}
+          <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-500">
+            <div className="flex items-center gap-2 overflow-hidden">
+              <span className="font-extrabold text-slate-700 shrink-0 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Aktivitas Tap RFID Terbaru:</span>
+              </span>
+              <div className="flex items-center gap-2 overflow-x-auto truncate text-[11px]">
+                {latestTaps.map((t, idx) => (
+                  <span key={t.id || idx} className="bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-lg text-slate-600 whitespace-nowrap">
+                    <strong>{t.santriNama}</strong> ({t.status.toUpperCase()}) &bull; <span className="font-mono text-emerald-700">{t.timestamp.split(' ')[1] || t.timestamp}</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+            <span className="text-[10px] text-slate-400 font-mono shrink-0">Gateway Antena: Gate 1 & 2 Aktif</span>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-xs space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-extrabold text-slate-800 text-base flex items-center gap-2">
+                  <span>📊 Pemantauan Kehadiran Santri: David Febrianto</span>
+                </h3>
+                <span className="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 text-[11px] font-extrabold px-3 py-1 rounded-full border border-emerald-300 shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
+                  <span>Santri Aktif &bull; Kamar A-01</span>
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 mt-1">
+                Rekapitulasi kehadiran sholat berjamaah, pengajian kitab turats, dan kegiatan asrama santri.
+              </p>
+            </div>
 
             <button
               onClick={() => setCurrentView('kegiatan')}
-              className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-1 transition"
+              className="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center gap-1 transition shadow-sm self-start sm:self-auto"
             >
-              <span>Lihat Log & Input Absen</span>
+              <span>Lihat Jadwal & Riwayat Absen</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
-        </div>
 
-        {/* PROGRESS BAR PROPORTIONAL 100% */}
-        <div className="space-y-1.5">
-          <div className="h-6 rounded-full overflow-hidden bg-slate-100 flex p-0.5 border border-slate-200 shadow-inner">
-            {hadirCount > 0 && (
+          {/* PROGRESS BAR PRIBADI DAVID */}
+          <div className="space-y-1.5">
+            <div className="h-6 rounded-full overflow-hidden bg-slate-100 flex p-0.5 border border-slate-200 shadow-inner">
               <div 
-                style={{ width: `${hadirPct}%` }} 
-                className="bg-emerald-600 h-full rounded-l-full transition-all duration-700 flex items-center justify-center text-[10px] text-white font-extrabold overflow-hidden shadow-xs" 
-                title={`Hadir: ${hadirCount} Santri (${hadirPct}%)`}
+                style={{ width: `${myPersonalAttendanceRate}%` }} 
+                className="bg-emerald-600 h-full rounded-full transition-all duration-700 flex items-center justify-center text-[10px] text-white font-extrabold overflow-hidden shadow-xs" 
               >
-                {parseFloat(hadirPct) >= 12 && `${hadirPct}% Hadir`}
+                {myPersonalAttendanceRate}% Tingkat Kehadiran
               </div>
-            )}
-            {izinCount > 0 && (
-              <div 
-                style={{ width: `${izinPct}%` }} 
-                className="bg-amber-400 h-full transition-all duration-700 flex items-center justify-center text-[10px] text-amber-950 font-extrabold overflow-hidden" 
-                title={`Izin: ${izinCount} Santri (${izinPct}%)`}
-              >
-                {parseFloat(izinPct) >= 8 && `${izinPct}%`}
-              </div>
-            )}
-            {sakitCount > 0 && (
-              <div 
-                style={{ width: `${sakitPct}%` }} 
-                className="bg-blue-500 h-full transition-all duration-700 flex items-center justify-center text-[10px] text-white font-extrabold overflow-hidden" 
-                title={`Sakit: ${sakitCount} Santri (${sakitPct}%)`}
-              >
-                {parseFloat(sakitPct) >= 8 && `${sakitPct}%`}
-              </div>
-            )}
-            {alphaCount > 0 && (
-              <div 
-                style={{ width: `${alphaPct}%` }} 
-                className="bg-rose-500 h-full rounded-r-full transition-all duration-700 flex items-center justify-center text-[10px] text-white font-extrabold overflow-hidden" 
-                title={`Alpha: ${alphaCount} Santri (${alphaPct}%)`}
-              >
-                {parseFloat(alphaPct) >= 8 && `${alphaPct}%`}
-              </div>
-            )}
-          </div>
-          <div className="flex justify-between items-center text-[10px] text-slate-400 font-bold px-1">
-            <span>0%</span>
-            <span>Total Tercatat: {hadirCount + izinCount + sakitCount + alphaCount} Santri Aktif</span>
-            <span>100%</span>
-          </div>
-        </div>
-
-        {/* Breakdown 4 Status Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div className="bg-emerald-50 rounded-2xl p-3.5 flex items-center gap-3 border border-emerald-100">
-            <div className="w-3.5 h-3.5 rounded-full bg-emerald-600 shrink-0"></div>
-            <div>
-              <p className="text-xs font-bold text-slate-700">Hadir</p>
-              <p className="text-sm font-extrabold text-emerald-800">{hadirCount} Santri ({hadirPct}%)</p>
+            </div>
+            <div className="flex justify-between items-center text-[10px] text-slate-400 font-bold px-1">
+              <span>0%</span>
+              <span className="text-emerald-700 font-extrabold">Total Kegiatan Tercatat: {myTotalKegiatan}</span>
+              <span>100%</span>
             </div>
           </div>
 
-          <div className="bg-amber-50 rounded-2xl p-3.5 flex items-center gap-3 border border-amber-100">
-            <div className="w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0"></div>
-            <div>
-              <p className="text-xs font-bold text-slate-700">Izin Keluar/Pulang</p>
-              <p className="text-sm font-extrabold text-amber-800">{izinCount} Santri ({izinPct}%)</p>
+          {/* 4 Status Breakdown David */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="bg-emerald-50 rounded-2xl p-3.5 flex items-center gap-3 border border-emerald-100">
+              <div className="w-3.5 h-3.5 rounded-full bg-emerald-600 shrink-0"></div>
+              <div>
+                <p className="text-xs font-bold text-slate-700">Hadir</p>
+                <p className="text-sm font-extrabold text-emerald-800">{myHadirCount} Kegiatan</p>
+              </div>
             </div>
-          </div>
 
-          <div className="bg-blue-50 rounded-2xl p-3.5 flex items-center gap-3 border border-blue-100">
-            <div className="w-3.5 h-3.5 rounded-full bg-blue-500 shrink-0"></div>
-            <div>
-              <p className="text-xs font-bold text-slate-700">Sakit</p>
-              <p className="text-sm font-extrabold text-blue-800">{sakitCount} Santri ({sakitPct}%)</p>
+            <div className="bg-amber-50 rounded-2xl p-3.5 flex items-center gap-3 border border-amber-100">
+              <div className="w-3.5 h-3.5 rounded-full bg-amber-400 shrink-0"></div>
+              <div>
+                <p className="text-xs font-bold text-slate-700">Izin Resmi</p>
+                <p className="text-sm font-extrabold text-amber-800">{myIzinCount} Kegiatan</p>
+              </div>
             </div>
-          </div>
 
-          <div className="bg-rose-50 rounded-2xl p-3.5 flex items-center gap-3 border border-rose-100">
-            <div className="w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0"></div>
-            <div>
-              <p className="text-xs font-bold text-slate-700">Alpha (Tanpa Keterangan)</p>
-              <p className="text-sm font-extrabold text-rose-800">{alphaCount} Santri ({alphaPct}%)</p>
+            <div className="bg-blue-50 rounded-2xl p-3.5 flex items-center gap-3 border border-blue-100">
+              <div className="w-3.5 h-3.5 rounded-full bg-blue-500 shrink-0"></div>
+              <div>
+                <p className="text-xs font-bold text-slate-700">Sakit di Kamar</p>
+                <p className="text-sm font-extrabold text-blue-800">{mySakitCount} Kegiatan</p>
+              </div>
+            </div>
+
+            <div className="bg-rose-50 rounded-2xl p-3.5 flex items-center gap-3 border border-rose-100">
+              <div className="w-3.5 h-3.5 rounded-full bg-rose-500 shrink-0"></div>
+              <div>
+                <p className="text-xs font-bold text-slate-700">Alpha / Tidak Hadir</p>
+                <p className="text-sm font-extrabold text-rose-800">{myAlphaCount} Kegiatan</p>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Live Ticker Feed */}
-        <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-500">
-          <div className="flex items-center gap-2 overflow-hidden">
-            <span className="font-extrabold text-slate-700 shrink-0 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span>Aktivitas Tap RFID Terbaru:</span>
-            </span>
-            <div className="flex items-center gap-2 overflow-x-auto truncate text-[11px]">
-              {latestTaps.map((t, idx) => (
-                <span key={t.id || idx} className="bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-lg text-slate-600 whitespace-nowrap">
-                  <strong>{t.santriNama}</strong> ({t.status.toUpperCase()}) &bull; <span className="font-mono text-emerald-700">{t.timestamp.split(' ')[1] || t.timestamp}</span>
-                </span>
-              ))}
-            </div>
-          </div>
-          <span className="text-[10px] text-slate-400 font-mono shrink-0">Gateway Antena: Gate 1 & 2 Aktif</span>
-        </div>
-      </div>
+      )}
 
       {/* Quick Action Navigation Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -389,14 +502,14 @@ export const DashboardView: React.FC = () => {
                 📝
               </div>
               <span className="text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">
-                {pendingIzin} Pending
+                {role === 'admin' ? `${pendingIzin} Pending` : `${myApprovedIzin.length} Disetujui`}
               </span>
             </div>
             <h4 className="font-extrabold text-slate-800 text-sm group-hover:text-amber-700 transition">
-              {role === 'admin' ? 'Verifikasi Izin Santri' : 'Surat Izin Santri'}
+              {role === 'admin' ? 'Verifikasi Izin Santri' : (role === 'ortu' ? 'Izin Santri' : 'Surat Izin Santri')}
             </h4>
             <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-              Pengajuan izin keluar/pulang digital dengan persetujuan pengurus.
+              {role === 'ortu' ? 'Daftar perizinan keluar atau pulang ananda yang telah resmi disetujui.' : 'Pengajuan izin keluar/pulang digital dengan persetujuan pengurus.'}
             </p>
           </div>
           <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-amber-700 font-bold">
@@ -415,7 +528,7 @@ export const DashboardView: React.FC = () => {
                 💳
               </div>
               <span className="text-[10px] bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded-full">
-                {pendingKeu} Verifikasi
+                {role === 'admin' ? `${pendingKeu} Verifikasi` : `${myKeu.filter(k => k.status === 'lunas').length} Lunas`}
               </span>
             </div>
             <h4 className="font-extrabold text-slate-800 text-sm group-hover:text-purple-700 transition">
@@ -443,7 +556,7 @@ export const DashboardView: React.FC = () => {
                 🛡️
               </div>
               <span className="text-[10px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-full">
-                {pendingHukuman} Ta'zir Aktif
+                {role === 'admin' ? `${pendingHukuman} Ta'zir Aktif` : (myActiveHukuman === 0 ? 'Disiplin Bersih ✓' : `${myActiveHukuman} Ta'zir`)}
               </span>
             </div>
             <h4 className="font-extrabold text-slate-800 text-sm group-hover:text-rose-700 transition">
@@ -514,14 +627,14 @@ export const DashboardView: React.FC = () => {
         )}
       </div>
 
-      {/* Info Dosen & Tim SKPL */}
+      {/* Info Dosen & Tim PPL */}
       <div className="bg-slate-900 text-white p-6 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-xl border border-slate-800">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-bold border border-emerald-500/30 shrink-0">
             🎓
           </div>
           <div>
-            <h4 className="font-bold text-sm text-slate-100">Spesifikasi Kebutuhan Perangkat Lunak (SKPL) - Kelompok 9</h4>
+            <h4 className="font-bold text-sm text-slate-100">Proyek Perangkat Lunak (PPL) - Kelompok 4</h4>
             <p className="text-xs text-slate-400 mt-1">Dosen Pengampu: Achmad Jauhari S.T., M.Kom (NIP: 1981010920060410003)</p>
             <p className="text-[11px] text-emerald-400/90 mt-1 font-semibold">Anggota: David Febrianto (230411100062) · Moh. Yusuf Ardiansyah (240411100050) · Sulhan Humaidi (240411100058) · Anas (240411100200) · Yoga Andrian Febriyanto (240411100167)</p>
           </div>
